@@ -32,9 +32,11 @@ login_manager.login_view = 'users.login'
 from tripdripblog.core.views import core
 from tripdripblog.users.views import users
 from tripdripblog.blog_posts.views import blog_posts
+from tripdripblog.trip_blogs.views import trip_blogs
 from tripdripblog.error_pages.handlers import error_pages
 
 app.register_blueprint(core)
 app.register_blueprint(users)
 app.register_blueprint(blog_posts)
+app.register_blueprint(trip_blogs)
 app.register_blueprint(error_pages)

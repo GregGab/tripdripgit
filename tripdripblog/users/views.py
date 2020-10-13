@@ -131,3 +131,13 @@ def user_posts(username):
     user = User.query.filter_by(username=username).first_or_404()
     blog_posts = BlogPost.query.filter_by(author=user).order_by(BlogPost.date.desc()).paginate(page=page, per_page=5)
     return render_template('user_blog_posts.html', blog_posts=blog_posts, user=user)
+
+
+# user's list of Blog posts
+@users.route("/trips/<username>") # < > means the username may change, depending on the user
+def user_trips(username):
+
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    trip_blogs = TripBlog.query.filter_by(author=user).order_by(TripBlog.date.desc()).paginate(page=page, per_page=5)
+    return render_template('user_trip_blogs.html', trip_blogs=trip_blogs, user=user)
