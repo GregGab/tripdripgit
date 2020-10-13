@@ -1,0 +1,40 @@
+body{
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+h2{
+  color: #fff;
+  font-size: 2em;
+  text-align: center;
+  text-decoration-color: right_edge;
+}
+
+#index-quote{
+
+  padding-top: 70px;
+  color: #020024;
+}
+
+.blockquote{
+  font-size: 23px;
+}
+
+#index-register{
+  padding-top: 15px;
+}
+
+.login .jumbotron{
+
+  margin-left: 100px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, .1), 0 8px 16px rgba(0, 0, 0, .1);
+
+
+}
+
+.menu-bar {
+  padding-bottom: 80px;
+}

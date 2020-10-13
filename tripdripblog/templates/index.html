@@ -1,12 +1,78 @@
 {% extends "base.html" %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />
 
-    <div class="jumbotron">
-        <h1>TripDrip</h1>
+
+<div class="container">
+
+  <div class="row">
+
+      <div class="col-6">
+
+
+
+      <div id="index-quote">
+
+        <blockquote class="blockquote text-center">
+          <p class="mb-0">The world is yours. Go see it, save it and share.</p>
+          <footer class="blockquote-footer">Share your trip with <cite title="Source Title">Trip Drip</cite></footer>
+        </blockquote>
+
+      </div>
+
+      </div>
+
+
+      {% if session['logged_in'] %}
+      <p>You're alredy logged In</p>
+      {% else %}
+
+      <div class="login col-6">
+        <div class="jumbotron">
+            <div align="center">
+                <form method="POST">
+                        {{ form.hidden_tag() }}
+
+                    <div class="form-group">
+
+                        {{ form.email(class='form-control', placeholder="Enter Your Email") }}
+                    </div>
+
+                    <div class="form-group">
+
+                        {{ form.password(class='form-control', placeholder="Password") }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ form.submit(class='btn btn-primary btn-block') }}
+                    </div>
+
+                    <div class="forgot-password">
+                      <a href="#">Forgot password?</a>
+                    </div>
+
+                    <div class="form-group" id="index-register">
+                        <a class='btn btn-success btn-block' href="{{url_for('users.register')}}">Create Account</a>
+                    </div>
+                </form>
+            </div>
+
+        {% endif %}
+        </div>
+
+
 
     </div>
+  </div>
 
-    <div class="container">
+<div class="container">
+  {% block login %}
+
+  {% endblock %}
+</div>
+
+
+
         {% for post in blog_posts.items %}
 
         <div class="card">
@@ -44,5 +110,7 @@
 
   </ul>
 </nav>
+
+
 
 {% endblock %}
