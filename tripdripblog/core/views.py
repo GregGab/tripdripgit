@@ -3,7 +3,7 @@ from flask import render_template, request, Blueprint
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from tripdripblog import db
-from tripdripblog.models import User, BlogPost
+from tripdripblog.models import User, BlogPost, TripBlog
 from tripdripblog.users.forms import RegistrationForm, LoginForm, UpdateUserForm #, PasswordResetForm
 from tripdripblog.users.picture_handler import add_profile_pic
 from werkzeug.security import generate_password_hash
@@ -42,3 +42,12 @@ def index():
 @core.route('/info')
 def info():
     return render_template('info.html')
+
+
+@core.route('/profile/<username>', methods=['GET', 'POST'])
+def profile():
+
+    page = request.args.get('page', 1, type=int)
+    trip_blogs = TripBlog.query.order_by(TripBlog.date.desc()).paginate(page=page, per_page=5)
+
+    return render_template('profile.html', trip_blogs=trip_blogs)

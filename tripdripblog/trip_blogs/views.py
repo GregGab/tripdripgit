@@ -7,10 +7,13 @@ from tripdripblog import db
 from tripdripblog.models import BlogPost
 from tripdripblog.blog_posts.forms import BlogPostForm
 
+from tripdripblog.models import TripBlog
+from tripdripblog.trip_blogs.forms import TripBlogForm
+
 trip_blogs = Blueprint('trip_blogs', __name__)
 
-# CREATE A BLOG POST
-@trip_blogs.route('/create', methods=['GET', 'POST'])
+# CREATE A TRIP BLOG POST
+@trip_blogs.route('/create-trip', methods=['GET', 'POST'])
 @login_required
 def create_trip():
 
@@ -20,7 +23,11 @@ def create_trip():
 
         trip_blog = TripBlog(title=form.title.data,
                               text=form.text.data,
-                              user_id=current_user.id)
+                              city_country=form.city_country.data,
+                              stayed_where=form.stayed_where.data,
+                              went_where=form.went_where.data,
+                              trip_image=form.trip_image.data,
+                              user_id=current_user.id,)
 
         db.session.add(trip_blog)
         db.session.commit()

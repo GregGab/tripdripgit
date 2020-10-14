@@ -65,31 +65,32 @@ class BlogPost(db.Model):
         return f"Post ID: {self.id} -- Date: {self.date} --- {self.title}"
 
 
-    class TripBlog(db.Model):
+class TripBlog(db.Model):
 
-        users = db.relationship(User)
+    users = db.relationship(User)
 
-        id = db.Column(db.Integer, primary_key=True)
-        user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-        date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-        title = db.Column(db.String(140), nullable=False)
-        text = db.Column(db.Text, nullable=False)
+    date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    title = db.Column(db.String(140), nullable=False)
+    text = db.Column(db.Text, nullable=False)
 
-        city_country = db.Column(db.String(140), nullable=False)
-        stayed_where = db.Column(db.String(140), nullable=False)
-        went_where = db.Column(db.String(140), nullable=False)
-        trip_image = db.Column(db.String(64), nullable=False, default='default_trip.png')
+    city_country = db.Column(db.String(140), nullable=False)
+    stayed_where = db.Column(db.String(140), nullable=False)
+    went_where = db.Column(db.String(140), nullable=False)
+    trip_image = db.Column(db.String(64), nullable=False, default='default_trip.png')
 
 
 
-        def __init__(self, title, text, user_id):
-            self.title = title
-            self.text = text
-            self.user_id = user_id
-            self.city_country = city_country
-            self.stayed_where = stayed_where
-            self.went_where = went_where
+    def __init__(self, title, text, user_id, city_country, stayed_where, went_where, trip_image):
+        self.title = title
+        self.text = text
+        self.user_id = user_id
+        self.city_country = city_country
+        self.stayed_where = stayed_where
+        self.went_where = went_where
+        self.trip_image = trip_image
 
-        def __repr__(self):
-            return f"Post ID: {self.id} -- Date: {self.date} --- {self.title}"
+    def __repr__(self):
+        return f"Post ID: {self.id} -- Date: {self.date} --- {self.title}"
