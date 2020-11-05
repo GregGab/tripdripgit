@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from werkzeug.exceptions import abort
 
 from tripdripblog import db
-from tripdripblog.models import BlogPost
+from tripdripblog.models import BlogPost, User, TripBlog
 from tripdripblog.blog_posts.forms import BlogPostForm
 
 from tripdripblog.models import TripBlog
@@ -37,13 +37,16 @@ def create_trip():
     return render_template('create_trip.html', form=form)
 
 
-# BLOG POST (VIEW)
-@trip_blogs.route('/<int:trip_blog_id>') # int makes sure the id is an integer
-def trip_blog(trip_blog_id):
+# TRIP BLOG (VIEW)
+@trip_blogs.route('/<username>/<int:trip_blog_id>') # int makes sure the id is an integer
+def trip_blog(username, trip_blog_id):
 
-    trip_blog = TripBlog.query.get_or_404(blog_post_id)
+    trip_blog = TripBlog.query.get_or_404(trip_blog_id)
+    user = User.query.filter_by(username=username).first_or_404()
     return render_template('trip_blog.html', title=trip_blog.title,
-                           date=trip_blog.date, post=trip_blog)
+                           date=trip_blog.date, city=trip_blog.city_country,
+                            hotel=trip_blog.stayed_where, visited=trip_blog.went_where,
+                            photo=trip_blog.trip_image, blog=trip_blog, user=user)
 
 
 # UPDATE
@@ -71,7 +74,7 @@ def update(trip_blog_id):
         form.title.data = trip_blog.title
         form.text.data = trip_blog.text
 
-    return render_template('create_trip.html', title='Updating', form=form)
+    #return render_template('create_trip.html', title='Updating', form=form)
 
 
 # DELETE

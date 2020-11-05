@@ -1,42 +1,50 @@
 {% extends "base.html" %}
 {% block content %}
 
-  {% for post in blog_posts.items %}
+<div class="container">
+    <div class="jumbotron">
+        <div align="center">
+            <h1>Welcome to the page for {{user.username}}</h1>
+            <img src="{{url_for('static', filename='profile_pics/'+user.profile_image)}}">
+        </div>
+    </div>
 
-  <div class="card">
-      <div class="card-body">
-          <h2> <a class='card-title' href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">{{ post.title }}</a></h2>
-          <a href="{{url_for('users.user_posts', username=post.author.username)}}">Written By: {{ post.author.username }}</a>
-          <p>Published on: {{post.date.strftime('%Y-%m-%d')}}</p>
-          <a class="btn btn-primary" href="{{ url_for('blog_posts.blog_post', blog_post_id=post.id) }}">Read blog Post</a>
-      </div>
 
-  </div>
+{% for blog in trip_blogs.items %}
 
-  {% endfor %}
+    <h2> <a href="{{url_for('trip_blogs.trip_blog', username=blog.author.username, trip_blog_id=blog.id)}}">{{blog.title}}</a> </h2>
+    Written By: <a href="{{url_for('users.user_trips', username=blog.author.username)}}">{{blog.author.username}}</a>
+    <p class='text-muted'>Published on: {{blog.date.strftime("%Y-%m-%d")}}"</p>
+        <br>
+        <p>{{blog.text}}</p>
+        <br>
 
-  </div>
+{% endfor %}
 
-  <nav aria-label="Page navigation example">
+</div>
+
+<nav aria-label="Page navigation example">
   <ul class="pagination justify-content-center">
 
-  {% for page_num in blog_posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
-  {% if blog_posts.page == page_num %}
+    {% for page_num in trip_blogs.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if trip_blogs.page == page_num %}
 
-  <li class='page-item disabled'>
-      <a class="page-link" href="{{url_for('core.index', page=page_num)}}">{{ page_num }}</a>
-  </li>
+        <li class='page-item disabled'>
+            <a class="page-link" href="{{url_for('users.user_trips', username=user.username, page=page_num)}}">{{ page_num }}</a>
+        </li>
 
-  {% else %}
+        {% else %}
 
-  <li class="page-item">
-      <a class="page-link" href="{{url_for('core.index', page=page_num)}}">{{ page_num }}</a>
-  </li>
+        <li class='page-item'>
+            <a class="page-link" href="{{url_for('users.user_trips', username=user.username, page=page_num)}}">{{ page_num }}</a>
+        </li>
 
-  {% endif %}
-  {% endfor %}
+        {% endif %}
+    {% endfor %}
 
   </ul>
-  </nav>
+</nav>
+
+
 
 {% endblock %}

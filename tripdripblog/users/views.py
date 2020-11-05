@@ -2,7 +2,7 @@
 from flask import render_template, url_for, flash, redirect, request, Blueprint
 from flask_login import login_user, current_user, logout_user, login_required
 from tripdripblog import db
-from tripdripblog.models import User, BlogPost
+from tripdripblog.models import User, BlogPost, TripBlog
 from tripdripblog.users.forms import RegistrationForm, LoginForm, UpdateUserForm #, PasswordResetForm
 from tripdripblog.users.picture_handler import add_profile_pic
 from werkzeug.security import generate_password_hash
@@ -47,7 +47,7 @@ def login():
 
             # if user went straight to log in page
             if next ==None or not next[0]=='/':
-                next = url_for('core.index')
+                next = url_for('users.profile', username=user.username)
 
             return redirect(next)
 
@@ -140,4 +140,14 @@ def user_trips(username):
     page = request.args.get('page', 1, type=int)
     user = User.query.filter_by(username=username).first_or_404()
     trip_blogs = TripBlog.query.filter_by(author=user).order_by(TripBlog.date.desc()).paginate(page=page, per_page=5)
-    return render_template('profile.html', trip_blogs=trip_blogs, user=user)
+    return render_template('user_trip_blogs.html', trip_blogs=trip_blogs, user=user)
+
+
+# user's list of Trip Blogs
+@users.route("/profile/<username>") # < > means the username may change, depending on the user
+def profile(username):
+
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    trip_blogs = TripBlog.query.filter_by(author=user).order_by(TripBlog.date.desc()).paginate(page=page, per_page=5)
+    return render_template('profile.html', trip_blogs=trip_blogs, user=user, username=useraname)

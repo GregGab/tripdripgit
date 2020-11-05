@@ -87,6 +87,20 @@
 
         {% endfor %}
 
+        {% for blog in trip_blogs.items %}
+
+        <div class="card">
+            <div class="card-body">
+                <h2> <a class='card-title' href="{{ url_for('trip_blogs.trip_blog', username=blog.author.username, trip_blog_id=blog.id) }}">{{ blog.title }}</a></h2>
+                <a href="{{url_for('users.user_trips', username=blog.author.username)}}">Written By: {{ blog.author.username }}</a>
+                <p>Published on: {{blog.date.strftime('%Y-%m-%d')}}</p>
+                <a class="btn btn-primary" href="{{ url_for('trip_blogs.trip_blog', username=blog.author.username, trip_blog_id=blog.id) }}">Read Trip Blog</a>
+            </div>
+
+        </div>
+
+        {% endfor %}
+
     </div>
 
 <nav aria-label="Page navigation example">
